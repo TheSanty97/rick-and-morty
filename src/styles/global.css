@@ -1,1 +1,349 @@
 @import "tailwindcss";
+
+:root {
+  --portal-green: #97ce4c;
+  --portal-cyan: #24d6e8;
+  --portal-glow: #b6ff5a;
+  --bg-space: #0b0e14;
+  --bg-panel: rgba(20, 26, 38, 0.7);
+  --border-soft: rgba(151, 206, 76, 0.18);
+  --text-soft: #aab4c5;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: #f5f7fa;
+  background-color: var(--bg-space);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(36, 214, 232, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(151, 206, 76, 0.14), transparent 42%),
+    radial-gradient(circle at 50% 95%, rgba(151, 206, 76, 0.08), transparent 45%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Starfield overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 90% 25%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 10% 70%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 60% 10%, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 100% 100%;
+  opacity: 0.5;
+}
+
+/* ===== Portal title ===== */
+.portal-title {
+  font-family: "Bangers", system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  background: linear-gradient(
+    90deg,
+    var(--portal-cyan),
+    var(--portal-glow) 50%,
+    var(--portal-green)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px rgba(151, 206, 76, 0.25);
+  filter: drop-shadow(0 4px 12px rgba(36, 214, 232, 0.35));
+}
+
+/* ===== Animated portal ring ===== */
+.portal-ring {
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    var(--portal-cyan),
+    var(--portal-glow),
+    var(--portal-green),
+    var(--portal-cyan)
+  );
+  filter: blur(2px);
+  animation: spin 6s linear infinite;
+  box-shadow: 0 0 30px rgba(151, 206, 76, 0.5);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Inputs ===== */
+.control-input {
+  width: 100%;
+  padding: 0.65rem 0.95rem;
+  border-radius: 0.75rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  color: #f5f7fa;
+  font-size: 0.9rem;
+  backdrop-filter: blur(8px);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.control-input::placeholder {
+  color: var(--text-soft);
+}
+
+.control-input:focus {
+  outline: none;
+  border-color: var(--portal-green);
+  box-shadow: 0 0 0 3px rgba(151, 206, 76, 0.18);
+  background: rgba(20, 26, 38, 0.9);
+}
+
+select.control-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2397ce4c' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.25rem;
+}
+
+select.control-input option {
+  background: #141a26;
+  color: #f5f7fa;
+}
+
+/* ===== Buttons ===== */
+.btn-portal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0b0e14;
+  background: linear-gradient(135deg, var(--portal-glow), var(--portal-green));
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+  box-shadow: 0 4px 18px rgba(151, 206, 76, 0.25);
+}
+
+.btn-portal:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(151, 206, 76, 0.45);
+}
+
+.btn-portal:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-portal:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== Character card ===== */
+.character-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  animation: card-in 0.4s ease both;
+}
+
+.character-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--portal-green);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(151, 206, 76, 0.25),
+    0 0 30px rgba(151, 206, 76, 0.2);
+}
+
+.character-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.character-card:hover img {
+  transform: scale(1.05);
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Status dot ===== */
+.status-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-alive {
+  background: #55cc44;
+  box-shadow: 0 0 8px #55cc44;
+}
+
+.status-dead {
+  background: #d63d2e;
+  box-shadow: 0 0 8px #d63d2e;
+}
+
+.status-unknown {
+  background: #9aa0a6;
+  box-shadow: 0 0 8px #9aa0a6;
+}
+
+/* ===== Skeleton ===== */
+.skeleton-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.04) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== Modal ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(5, 8, 14, 0.78);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.2s ease;
+}
+
+.modal-backdrop.is-open {
+  display: flex;
+}
+
+.modal-panel {
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 1.25rem;
+  background: #121826;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  animation: modal-in 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0e14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(151, 206, 76, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(151, 206, 76, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
